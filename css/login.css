@@ -1,0 +1,139 @@
+body{
+    background: url(../pic/login/SignUp_BG.png) no-repeat fixed;
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    margin: 0;
+}
+
+a{
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #FFE6A3;
+    text-decoration: none;
+}
+
+a:hover{
+    color: #FFE6A3;
+    text-decoration: underline;
+}
+
+a:visited{
+    color: #FFE6A3;
+    text-decoration: none;
+}
+
+.button-a{
+    color: #0C1A82;
+    background-color: #FFE6A3;
+    border-radius: 36px;
+    padding: 12px 25px;
+}
+
+.button-a:hover{
+    color: #0C1A82;
+    text-decoration: underline;
+}
+
+.button-a:visited{
+    color: #0C1A82;
+    text-decoration: none;
+}
+
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,230,163, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+
+.head-button{
+    background-color: #FFE6A3;
+    border-radius: 36px;
+}
+
+.head-hr{
+    border: 1px solid #FFE6A3;
+    background-color: #FFE6A3;
+    opacity: 1;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-container{
+    background-color: #F5F5F6;
+    width: 450px;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.title, label, button{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.title{
+    /* margin-top: 50px; */
+    padding-top: 50px;
+    padding-left: 40px;
+}
+
+.form-hr{
+    border: 2px solid #B1B1B1;
+    background-color: #B1B1B1;
+    width: 82%;
+}
+
+input{
+    font-family: inherit;
+    border: none;
+    border-radius: 27.5px;
+}
+
+@media only screen and (max-width: 768px){
+    .button-a{
+        color: #FFE6A3;
+        background-color: transparent;
+        border-radius: initial;
+        padding: initial;
+    }
+
+    /* #navbar-toggle .no-margin{
+        margin-right: 0;
+    }
+
+    .no-margin .no-margin{
+        margin-right: 0;
+    } */
+
+    .me-4{
+        margin-right: 0%!important;
+    }
+
+    .me-5{
+        margin-right: 0%!important;
+    }
+
+    ul{
+        margin-top: 10px;
+    }
+
+    li{
+        /* background-color: rgba(255, 230, 163, 0.25); */
+        text-align: center;
+        border-bottom: 1.5px solid rgb(252, 208, 89);
+        /* border-top: transparent;
+        border-bottom: transparent; */
+        padding: 4px 7px;
+        /* padding-top: 4px;
+        padding-bottom: 4px; */
+    }
+
+    .button-a{
+        color: #FFE6A3;
+        text-decoration: none;
+    }
+
+    .button-a:visited{
+        color: #FFE6A3;
+        text-decoration: none;
+    }
+}
