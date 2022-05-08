@@ -1,9 +1,21 @@
-body{
-    background: url(../pic/login/SignUp_BG.png) no-repeat fixed;
-    /* font-family: 'Roboto', sans-serif; */
+html, body{
+    /* background: url(../pic/login/SignUp_BG.png) no-repeat center fixed;
+    background-size: cover; */
+    height: 100%;
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     margin: 0;
+    padding: 0;
+}
+
+.background-container{
+    height: 100%;
+    min-height: 790px;
+    background: url(../pic/login/SignUp_BG.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 a{
@@ -13,12 +25,12 @@ a{
     text-decoration: none;
 }
 
-a:hover{
+li > a:hover{
     color: #FFE6A3;
     text-decoration: underline;
 }
 
-a:visited{
+li > a:visited{
     color: #FFE6A3;
     text-decoration: none;
 }
@@ -60,7 +72,10 @@ a:visited{
 
 .form-container{
     background-color: #F5F5F6;
-    width: 450px;
+    width: 30%;
+    height: 88%;
+    min-width: 450px;
+    min-height: 695px;
     margin-right: 0;
     margin-left: auto;
 }
@@ -72,20 +87,118 @@ a:visited{
 
 .title{
     /* margin-top: 50px; */
-    padding-top: 50px;
+    padding-top: 40px;
     padding-left: 40px;
+    font-size: 30px;
+    /* font-weight: 900; */
 }
 
 .form-hr{
     border: 2px solid #B1B1B1;
     background-color: #B1B1B1;
     width: 82%;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p{
+    padding-top: 40px;
+    padding-left: 55px;
+}
+
+label{
+    font-size: 22px;
 }
 
 input{
     font-family: inherit;
+    font-size: 18px;
+    width: 82%;
     border: none;
     border-radius: 27.5px;
+    margin-left: 55px;
+    padding: 8px 16px;
+}
+
+.submit-button{
+    color: white;
+    background-color: #FA7373;
+    font-size: 18px;
+    border: none;
+    margin-top: 40px;
+    margin-left: 55px;
+    padding: 8px 30px;
+}
+
+.footer{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #0F0320;
+    padding-top: 35px;
+}
+
+.payments-ul{
+    display: flex;
+    flex-wrap: nowrap;
+    list-style: none;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.payments-ul li{
+    width: 50%;
+    text-align: center;
+}
+
+dt{
+    color: #FFE6A3;
+    text-transform: uppercase;
+}
+
+dd{
+    width: fit-content;
+}
+
+#mastercard-img{
+    width: 5%;
+    min-width: 60px;
+}
+
+#visa-img{
+    width: 8%;
+    min-width: 90px;
+}
+
+#true-wallet-img{
+    width: 10%;
+    min-width: 115px;
+}
+
+#kplus-img{
+    width: 3%;
+    min-width: 35px;
+}
+
+#facebook-img{
+    width: 3%;
+    min-width: 35px;
+}
+
+#instagram-img{
+    width: 3%;
+    min-width: 35px;
+}
+
+#gmail-img{
+    width: 3%;
+    min-width: 35px;
+}
+
+.shop-footer{
+    color: #D4AE1C;
 }
 
 @media only screen and (max-width: 768px){
@@ -95,14 +208,6 @@ input{
         border-radius: initial;
         padding: initial;
     }
-
-    /* #navbar-toggle .no-margin{
-        margin-right: 0;
-    }
-
-    .no-margin .no-margin{
-        margin-right: 0;
-    } */
 
     .me-4{
         margin-right: 0%!important;
@@ -135,5 +240,14 @@ input{
     .button-a:visited{
         color: #FFE6A3;
         text-decoration: none;
+    }
+
+    .payments-ul{
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    .payments-ul li{
+        width: initial;
     }
 }
