@@ -1,0 +1,134 @@
+body{
+    margin: 0%;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: auto;
+}
+
+#header{
+	grid-column: 1 / span 1;
+}
+
+/* #credit{
+	grid-row: 2 / span 1;
+} */
+.HeadBG{
+	background-image: url(../pic/home/Banner_BG.png);
+	background-repeat: no-repeat;
+  	background-size: 100% ;
+  	background-position: center top;
+ 	/* width: 100%;
+  	height: 100%; */
+}
+
+.HeadText{
+	font-family: 'Inter', sans-serif;
+	align-self: center;
+	padding-top: 15%;
+	/* padding-bottom: 12%; */
+}
+
+
+#Head1{
+	padding-left: 55%;
+	font-size: 2.8125vw;
+	font-weight: 700;
+	font-style: italic;
+	background: -webkit-linear-gradient(#FFFFE5 0%, #D5AE1C 61.46%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+#Head2{
+	padding-left: 55%;
+	line-height: 2;
+	font-size: 2.5vw;
+	font-weight: 500;
+	font-style: italic;
+	background: -webkit-linear-gradient(#FFFFE5 0%, #D5AE1C 61.46%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+#Head3{
+	padding-left: 55%;
+	line-height: 3.2;
+	font-size: 3.75vw;
+	font-weight: 700;
+	font-style: italic;
+	background: -webkit-linear-gradient(#FFFFE5 0%, #D5AE1C 61.46%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.Credit{
+	margin-top: 3.2%;
+	width: 71vw;
+	height: 20vw;
+	background: #FFFFFF;
+	box-shadow: 0px 0px 100px -10px rgba(0, 0, 0, 0.25);
+	border-radius: 30px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.Credit-container{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	text-align: center;
+	font-weight: 700;
+}
+
+#shipping{
+	grid-column: 1 / span 1;
+	padding-top: 40%;
+}
+
+#satisfaction{
+	grid-column: 2 / span 1;
+	padding-top: 40%;
+}
+
+#secure{
+	grid-column: 3 / span 1;
+	padding-top: 40%;
+}
+
+p{
+	font-size: 1.09375vw;
+	color: #120530;
+}
+
+li{
+	list-style-type: none;
+	font-size: 0.78125vw;
+	color: #1205308A;
+}
+
+#Pc{
+	margin-top: 6%;
+}
+
+.pcContent-container{
+	background-image: url(../pic/home/Pc_BG.png);
+	background-repeat: no-repeat;
+  	background-size: 100% 
+}
+
+#pcItem1{
+	width: 100%;
+}
+
+.xboxContent{
+	background-image: url(../pic/home/Xbox_BG.png);
+	background-repeat: no-repeat;
+  	background-size: 100% 
+}
+
+.psContent{
+	background-image: url(../pic/home/PS_BG.png);
+	background-repeat: no-repeat;
+  	background-size: 100% 
+}
