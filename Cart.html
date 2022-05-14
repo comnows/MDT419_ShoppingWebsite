@@ -30,17 +30,29 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="cart-container container-fluid">
         <div class="shopping-cart">
-            <div>
-                <div>Shopping Cart</div>
+            <div class="shopping-cart-head">
+                <div class="subhead-text">Shopping Cart</div>
                 <div class="items-count">0 Items</div>
             </div>
 
-            <hr>
+            <hr class="subhead-hr">
 
             <div class="container">
                 <div class="row">
+                    <div class="col-7 mb-4">
+                        <div class="details-head-text">product details</div>
+                    </div>
+                    <div class="col-3 mb-4">
+                        <div class="details-head-text">quantity</div>
+                    </div>
+                    <div class="col-2 mb-4">
+                        <div class="details-head-text">price</div>
+                    </div>
+
+                    <div class="w-100"></div>
+
                     <div class="col-7">
                         <div>product details</div>
                     </div>
@@ -50,31 +62,85 @@
                     <div class="col-2">
                         <div>price</div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
 
         <div class="order-summary">
-            <div>Order Summary</div>
-            <hr>
-            <div class="items-amount">Items 3</div>
-            <div class="items-cost">1490 THB</div>
+            <div class="subhead-text">Order Summary</div>
+            <hr class="subhead-hr">
 
-            <div>Discount</div>
-            <div>FIFA15</div>
-            <div class="discount-value">15 THB</div>
+            <div class="items-total">
+                <div class="items-amount">Items 3</div>
+                <div class="items-cost">1490 THB</div>
+            </div>
 
-            <div>Promo code</div>
-            <input type="text">
-            <button type="button">apply</button>
+            <div class="discount-text">Discount</div>
+            <div class="promo-code-details">
+                <div class="promo-code-container">
+                    <span class="promo-code">FIFA15</span>
+                    <button class="remove-button" type="button">remove</button>
+                </div>
+                <div class="discount-value">15 THB</div>
+            </div>
 
-            <hr>
+            <div class="promo-code-text">Promo code</div>
+            <input class="promo-code-input" type="text" placeholder="Enter your code" value="">
+            <button class="apply-code-button" type="button">apply</button>
 
-            <div>total cost</div>
-            <div>1475 THB</div>
+            <hr class="subhead-hr">
 
-            <button>checkout</button>
+            <div class="total-cost-container">
+                <div class="total-cost-text">Total Cost</div>
+                <div class="total-cost-value">1475 THB</div>
+            </div>
+
+            <button class="checkout-button">checkout</button>
         </div>
     </div>
+
+    <footer>
+        <div class="container-fluid footer">
+            <ul class="payments-ul">
+                <li>
+                    <dl>
+                        <dt>
+                            <span>payments</span>
+                        </dt>
+
+                        <dd>
+                            <img id="mastercard-img" src="pic/footer/mastercard.png" alt="mastercard">
+                            <img id="visa-img" src="pic/footer/visa.png" alt="visa">
+                            <img id="true-wallet-img" src="pic/footer/truewallet.png" alt="true-wallet">
+                            <img id="kplus-img" src="pic/footer/kplus.png" alt="k-plus">
+                        </dd>
+                    </dl>
+                </li>
+
+                <li>
+                    <dl>
+                        <dt>
+                            <span>contact us</span>
+                        </dt>
+
+                        <dd>
+                            <a class="ms-1 me-1" href="https://www.facebook.com/kuroba.kaito.739/" target="_blank">
+                                <img id="facebook-img" src="pic/footer/Facebook.png" alt="facebook">
+                            </a>
+                            <a class="ms-1 me-1" href="https://www.instagram.com/tay00721.official" target="_blank">
+                                <img id="instagram-img" src="pic/footer/instagram.png" alt="instagram">
+                            </a>
+                            <a class="ms-1 me-1" href="mailto:tay13755@gmail.com" target="_blank">
+                                <img id="gmail-img" src="pic/footer/gmail.png" alt="gmail">
+                            </a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+            <div class="container-fluid text-center mb-3">
+                <span class="shop-footer">© 2022 FUT SHOP.  All Rights Reserved.</span>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
