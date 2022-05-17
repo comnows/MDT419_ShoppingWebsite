@@ -11,6 +11,7 @@
     <link href="http://fonts.cdnfonts.com/css/inter" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" media="screen" href="css/cart.css">
+    <script type="text/javascript" src="js/cart.js"></script>
     <title>Cart</title>
 </head>
 <body>
@@ -39,7 +40,34 @@
 
             <hr class="subhead-hr">
 
-            <div class="container">
+            <div class="cart-table-container">
+                <table id="cart-items-table">
+                    <tr>
+                        <th>product details</th>
+                        <th>quantity</th>
+                        <th>price</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="cart-info">
+                                <img src="pic/test/PC_1M.png" alt="">
+                                <div class="product-details">
+                                    <p class="product-name">1M FIFA Coins (PC)</p>
+                                    <button class="items-remove-button" type="button">remove</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="minus-button" type="button">-</button>
+                            <input type="number" value="1" min="1">
+                            <button class="plus-button" type="button">+</button>
+                        </td>
+                        <td>2370 THB</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- <div class="container">
                 <div class="row">
                     <div class="col-7 mb-4">
                         <div class="details-head-text">product details</div>
@@ -54,16 +82,22 @@
                     <div class="w-100"></div>
 
                     <div class="col-7">
-                        <div>product details</div>
+                        <div class="product-details-grid-container">
+                            <img src="pic/test/PC_1M.png" alt="">
+                            <div class="item-name-flex-container">
+                                <div class="product-details-text">1M FIFA Coins (PC)</div>
+                            </div>
+                            <button class="item-remove-button">remove</button>
+                        </div>
                     </div>
                     <div class="col-3">
-                        <div>quantity</div>
+                        <input type="number" value="1">
                     </div>
                     <div class="col-2">
-                        <div>price</div>
+                        <div class="item-cost-text">2370 THB</div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="order-summary">
@@ -76,17 +110,19 @@
             </div>
 
             <div class="discount-text">Discount</div>
-            <div class="promo-code-details">
+            <div id="code-container" class="promo-code-details">
                 <div class="promo-code-container">
-                    <span class="promo-code">FIFA15</span>
-                    <button class="remove-button" type="button">remove</button>
+                    <div>
+                        <span class="promo-code">FIFA15</span>
+                        <button id="remove-code-button" class="remove-button" type="button">remove</button>
+                    </div>
+                    <div class="discount-value">15 THB</div>
                 </div>
-                <div class="discount-value">15 THB</div>
             </div>
 
             <div class="promo-code-text">Promo code</div>
-            <input class="promo-code-input" type="text" placeholder="Enter your code" value="">
-            <button class="apply-code-button" type="button">apply</button>
+            <input id="code-input" class="promo-code-input" type="text" placeholder="Enter your code" value="">
+            <button id="code-apply-button" class="apply-code-button" type="button">apply</button>
 
             <hr class="subhead-hr">
 
@@ -95,7 +131,7 @@
                 <div class="total-cost-value">1475 THB</div>
             </div>
 
-            <button class="checkout-button">checkout</button>
+            <button id="checkout-button" class="checkout-button">checkout</button>
         </div>
     </div>
 
