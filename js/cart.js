@@ -14,8 +14,12 @@ function getCode(){
     applyCode(code);
 }
 
-function checkout(){
-
+async function checkout(){
+    let response = await fetch("/removeAllCartItem");
+    let data = await response.json();
+    alert('Checkout Successful');
+    showCartItems(data);
+    removeCode();
 }
 
 async function readItemsCart(){
@@ -26,6 +30,7 @@ async function readItemsCart(){
 }
 
 function showCartItems(data){
+    var allItemsTotalPrice = 0;
     var keys = Object.keys(data);
     var cartTable = document.getElementById("cart-items-table");
     cartTable.innerHTML = `
@@ -41,6 +46,8 @@ function showCartItems(data){
         var itemName = data[keys[i]]["itemName"];
         var itemQuantity = data[keys[i]]["quantity"];
         var itemPrice = data[keys[i]]["price"];
+        var totalPrice = itemQuantity * itemPrice;
+        allItemsTotalPrice = allItemsTotalPrice + totalPrice;
 
         var cartRow = document.createElement("tr");
         cartRow.classList.add("cart-row");
@@ -60,14 +67,39 @@ function showCartItems(data){
                 <input class="cart-quantity-input" type="number" value="${itemQuantity}" min="1">
                 <button class="plus-button" type="button">+</button>
             </td>
-            <td class="cart-price">${itemPrice} THB</td>`;
+            <td class="cart-price">${totalPrice} THB</td>`;
         cartRow.innerHTML = cartRowContents;
         cartTable.append(cartRow);
     }
 
+    showItemAmount(keys.length);
+    showAllProductPrice(allItemsTotalPrice);
     addButtonListener();
     addIncrementButtonListener();
     addDecrementButtonListener();
+}
+
+function showAllProductPrice(price){
+    var itemsCostElement = document.getElementsByClassName("items-cost")[0];
+    itemsCostElement.innerText = price + " THB";
+    var priceWithDiscountElement = document.getElementsByClassName("total-cost-value")[0];
+    priceWithDiscountElement.innerText = price + " THB";
+}
+
+function showItemAmount(amount){
+    var itemsCountElement = document.getElementsByClassName("items-count")[0];
+    var itemsAmountElement = document.getElementsByClassName("items-amount")[0];
+
+    if(amount <= 1)
+    {
+        itemsCountElement.innerText = amount + " Item";
+        itemsAmountElement.innerText = "Item " + amount;
+    }
+    else
+    {
+        itemsCountElement.innerText = amount + " Items";
+        itemsAmountElement.innerText = "Items " + amount;
+    }
 }
 
 function addButtonListener(){
@@ -163,8 +195,9 @@ async function updateCartQuantity(name,value){
         })
     });
 
-    let msg = await response.text();
-    console.log(msg);
+    let cartData = await response.json();
+    console.log(cartData);
+    showCartItems(cartData)
 }
 
 async function applyCode(code){
@@ -191,7 +224,7 @@ async function applyCode(code){
         ShowDiscountCode(code,textMsg);
         document.getElementById("code-apply-button").disabled = true;
         addCodeRemoveButtonOnClick();
-
+        showPriceWithDiscount(textMsg);
     }
 }
 
@@ -254,7 +287,24 @@ function addCodeRemoveButtonOnClick(){
 function removeCode(){
     var codeContainer = document.getElementsByClassName("promo-code-container")[0];
     codeContainer.remove();
+    showPriceNoDiscount();
     document.getElementById("code-apply-button").disabled = false;
+}
+
+function showPriceWithDiscount(discount){
+    var itemsCostElement = document.getElementsByClassName("items-cost")[0];
+    var price = parseFloat(itemsCostElement.innerText.replace(' THB',''));
+    
+    var priceWithDiscount = price - discount;
+    var priceWithDiscountElement = document.getElementsByClassName("total-cost-value")[0];
+    priceWithDiscountElement.innerText = priceWithDiscount + ' THB';
+}
+
+function showPriceNoDiscount(){
+    var itemsCostElement = document.getElementsByClassName("items-cost")[0];
+    var priceWithDiscountElement = document.getElementsByClassName("total-cost-value")[0];
+    var itemsCostText = itemsCostElement.innerText;
+    priceWithDiscountElement.innerText = itemsCostText;
 }
 
 // function removeCartItem(event){

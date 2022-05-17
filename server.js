@@ -7,6 +7,7 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const { is } = require('express/lib/request');
+const res = require('express/lib/response');
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
@@ -104,6 +105,21 @@ app.get('/readItemsCart', async (req,res) => {
 //     res.send(data);
 // })
 
+app.get('/removeAllCartItem', async (req,res) => {
+    let cartJsonData = await readJson('database/CartItem.json');
+    let cartData = JSON.parse(cartJsonData);
+    let itemKeys = Object.keys(cartData);
+    
+    itemKeys.forEach(function(key){
+        delete cartData[key];
+    });
+
+    let newCartData = JSON.stringify(cartData);
+    writeJson(newCartData, 'database/CartItem.json');
+
+    res.send(newCartData);
+})
+
 app.post('/removeCartItem',async (req,res) => {
     const itemName = req.body.itemName;
     let CartData = await readJson('database/CartItem.json');
@@ -146,7 +162,7 @@ app.post('/updateQuantity',async (req,res) => {
     let newCartData = JSON.stringify(cartData,null,4);
     console.log(newCartData);
     writeJson(newCartData,'database/CartItem.json');
-    res.send('Write sucessful');
+    res.send(newCartData);
 })
 
 app.post('/applyCode',async (req,res) => {
