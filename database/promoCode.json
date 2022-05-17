@@ -1,0 +1,11 @@
+{
+    "FIFA15":{
+		"code": "FIFA15",
+		"discount":"15"},
+	"FIFA20":{
+		"code": "FIFA20",
+		"discount":"20"},
+    "FIFA30":{
+		"code": "FIFA30",
+		"discount":"30"}
+}

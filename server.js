@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
 const hostname = 'localhost';
 const port = 3000;
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+const { is } = require('express/lib/request');
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
@@ -73,6 +75,97 @@ app.post('/login',async (req,res) => {
     return res.redirect('Login.html?error=1');
 })
 
+app.get('/readItemData',async (req,res) => {
+    let data = await readJson('database/item.json');
+    res.send(data);
+})
+
+app.post('/writeItemData',async (req,res) => {
+    const itemImgSrc = req.body.itemToAdd;
+    console.log(itemImgSrc);
+    let data = await readJson('database/item.json');
+    let cartData = await readJson('database/CartItem.json');
+    let updatedCartData = await updateCart(itemImgSrc,data,cartData);
+    console.log(updatedCartData);
+    res.send("Successfully Added");
+})
+
+const readJson = (file_name) => {
+    return new Promise((resolve,reject) => {
+        fs.readFile(file_name,'utf8', (err, data) => {
+          if (err) 
+              reject(err);
+          else
+          {
+              resolve(data);
+          }
+        });    
+    })
+}
+
+const updateCart = (itemImgSrc, dataBase , cartData) => {
+    return new Promise((resolve,reject) => { 
+    var jsonData = JSON.parse(dataBase);
+    var keys = Object.keys(jsonData);
+    var cartJsonData = JSON.parse(cartData);
+    var cartKeys = Object.keys(cartJsonData);
+    var isItemContainInCart = false;
+    var cart = {itemName:"", price:"", picName:"", picPath:"", quantity:0};
+    
+    for (var n = 0 ; n < cartKeys.length ; n++)
+    {
+        if ("http://localhost:3000/" + cartJsonData[cartKeys[n]].picPath == itemImgSrc)
+        {
+            isItemContainInCart = true;
+        }
+    }
+
+    if (cartKeys.length != 0 && isItemContainInCart == true)
+    {   
+        for (var n = 0 ; n < cartKeys.length ; n++)
+        {
+            if ("http://localhost:3000/" + cartJsonData[cartKeys[n]].picPath == itemImgSrc)
+            {
+                cartJsonData[cartKeys[n]].quantity += 1;
+                var newCartJsonData = JSON.stringify(cartJsonData);
+                let dataToWrite =  writeJson(newCartJsonData,'database/CartItem.json');
+                resolve("plusCart!");
+            }
+        }
+    }
+
+    else if (cartKeys.length == 0 || isItemContainInCart == false)
+    {
+        for (var i = 0 ; i < keys.length ; i++)
+        {
+            if ("http://localhost:3000/" + jsonData[keys[i]].picPath == itemImgSrc)
+            {
+                cart.itemName = jsonData[keys[i]].itemName;
+                cart.price = jsonData[keys[i]].price;
+                cart.picName = jsonData[keys[i]].picName;
+                cart.picPath = jsonData[keys[i]].picPath;
+                cart.quantity = 1;
+                cartJsonData["item" + (cartKeys.length+1)] = cart;
+                var newCartJsonData = JSON.stringify(cartJsonData);
+                let dataToWrite =  writeJson(newCartJsonData,'database/CartItem.json');
+                resolve("created!");
+            }
+        }
+    }
+    });
+  }
+
+const writeJson = (data,file_name) => {
+    return new Promise((resolve,reject) => {
+        fs.writeFile(file_name, data , (err) => {
+          if (err) 
+              reject(err);
+          else
+              resolve("saved!")
+      });
+    })
+}
+
 app.listen(port, hostname, () => {
-    console.log(`Server running at   http://${hostname}:${port}/Register.html`);
+    console.log(`Server running at   http://${hostname}:${port}/Home.html`);
 });

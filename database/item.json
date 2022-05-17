@@ -1,0 +1,122 @@
+{
+	"PC_100k":{
+		"itemName": "100K FIFA Coins (PC)",
+		"price":"250",
+		"picName":"PC_100K.png",
+		"picPath":"pic/home/card_item/PC_Coins/PC_100K.png"},
+	"PC_300k":{
+		"itemName": "300K FIFA Coins (PC)",
+		"price":"720",
+		"picName":"PC_300K.png",		
+		"picPath":"pic/home/card_item/PC_Coins/PC_300K.png"},
+	"PC_500k":{
+		"itemName": "500K FIFA Coins (PC)",
+		"price":"1200",
+		"picName":"PC_500K.png",
+		"picPath":"pic/home/card_item/PC_Coins/PC_500K.png"},
+	"PC_1M":{
+		"itemName": "1M FIFA Coins (PC)",
+		"price":"2370",
+		"picName":"PC_1M.png",
+		"picPath":"pic/home/card_item/PC_Coins/PC_1M.png"},
+    "PC_500P":{
+		"itemName": "500P FIFA Points (PC)",
+		"price":"180",
+		"picName":"PC_500P.png",
+		"picPath":"pic/home/card_item/PC_Points/PC_500P.png"},
+    "PC_1050P":{
+		"itemName": "1050P FIFA Points (PC)",
+		"price":"350",
+		"picName":"PC_1050P.png",	
+		"picPath":"pic/home/card_item/PC_Points/PC_1050P.png"},
+    "PC_2200P":{
+		"itemName": "2200P FIFA Points (PC)",
+		"price":"670",
+		"picName":"PC_2200P.png",
+		"picPath":"pic/home/card_item/PC_Points/PC_2200P.png"},	
+    "PC_4600P":{
+		"itemName": "4600P FIFA Points (PC)",
+		"price":"1220",
+		"picName":"PC_4600P.png",
+		"picPath":"pic/home/card_item/PC_Points/PC_4600P.png"},	
+	"Xbox_100k":{
+		"itemName": "100K FIFA Coins (Xbox)",
+		"price":"210",
+		"picName":"XB_100K.png",
+		"picPath":"pic/home/card_item/Xbox_Coins/XB_100K.png"},
+	"Xbox_300k":{
+		"itemName": "300K FIFA Coins (Xbox)",
+		"price":"680",
+		"picName":"XB_300K.png",
+		"picPath":"pic/home/card_item/Xbox_Coins/XB_300K.png"},
+	"Xbox_500k":{
+		"itemName": "500K FIFA Coins (Xbox)",
+		"price":"1160",
+		"picName":"XB_500K.png",
+		"picPath":"pic/home/card_item/Xbox_Coins/XB_500K.png"},
+	"Xbox_1M":{
+		"itemName": "1M FIFA Coins (Xbox)",
+		"price":"2230",
+		"picName":"XB_1M.png",
+		"picPath":"pic/home/card_item/Xbox_Coins/XB_1M.png"},
+    "Xbox_500P":{
+		"itemName": "500P FIFA Points (Xbox)",
+		"price":"190",
+		"picName":"XB_500P.png",
+		"picPath":"pic/home/card_item/Xbox_Points/XB_500P.png"},
+    "Xbox_1050P":{
+		"itemName": "1050P FIFA Points (Xbox)",
+		"price":"370",
+		"picName":"XB_1050P.png",
+		"picPath":"pic/home/card_item/Xbox_Points/XB_1050P.png"},	
+    "Xbox_2200P":{
+		"itemName": "2200P FIFA Points (Xbox)",
+		"price":"720",
+		"picName":"XB_2200P.png",
+		"picPath":"pic/home/card_item/Xbox_Points/XB_2200P.png"},	
+    "Xbox_4600P":{
+		"itemName": "4600P FIFA Points (Xbox)",
+		"price":"1350",
+		"picName":"XB_4600P.png",
+		"picPath":"pic/home/card_item/Xbox_Points/XB_4600P.png"},	
+	"PS_100k":{
+		"itemName": "100K FIFA Coins (PS)",
+		"price":"230",
+		"picName":"PS_100K.png",
+		"picPath":"pic/home/card_item/PS_Coins/PS_100K.png"},	
+    "PS_300k":{
+		"itemName": "300K FIFA Coins (PS)",
+		"price":"700",
+		"picName":"PS_300K.png",
+		"picPath":"pic/home/card_item/PS_Coins/PS_300K.png"},	
+    "PS_500k":{
+		"itemName": "500K FIFA Coins (PS)",
+		"price":"1180",
+		"picName":"PS_500K.png",
+		"picPath":"pic/home/card_item/PS_Coins/PS_500K.png"},	
+    "PS_1M":{
+		"itemName": "1M FIFA Coins (PS)",
+		"price":"2350",
+		"picName":"PS_1M.png",
+		"picPath":"pic/home/card_item/PS_Coins/PS_1M.png"},	
+    "PS_500P":{
+		"itemName": "500P FIFA Points (PS)",
+		"price":"190",
+		"picName":"PS_500P.png",
+		"picPath":"pic/home/card_item/PS_Points/PS_500P.png"},	
+    "PS_1050P":{
+		"itemName": "1050P FIFA Points (PS)",
+		"price":"370",
+		"picName":"PS_1050P.png",
+		"picPath":"pic/home/card_item/PS_Points/PS_1050P.png"},		
+    "PS_2200P":{
+		"itemName": "2200P FIFA Points (PS)",
+		"price":"720",
+		"picName":"PS_2200P.png",
+		"picPath":"pic/home/card_item/PS_Points/PS_2200P.png"},			
+    "PS_4600P":{
+		"itemName": "4600P FIFA Points (PS)",
+		"price":"1350",
+		"picName":"PS_4600P.png",	
+		"picPath":"pic/home/card_item/PS_Points/PS_4600P.png"}									
+}
