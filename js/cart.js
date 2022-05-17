@@ -3,12 +3,14 @@ window.onload = pageLoad;
 function pageLoad(){
     document.getElementById("code-apply-button").onclick = getCode;
     document.getElementById("checkout-button").onclick = checkout;
-    addButtonListener();
+    readItemsCart();
+    // addButtonListener();
 }
 
 function getCode(){
     var code = document.getElementById("code-input").value;
     document.getElementById("code-input").value = "";
+    document.getElementById("error-msg").innerText = "";
     applyCode(code);
 }
 
@@ -16,84 +18,11 @@ function checkout(){
 
 }
 
-async function applyCode(code){
-    let response = await fetch("/applyCode", {
-        method:"POST",
-        headers:{
-            'Accept': 'application/json',
-			'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            discountCode:code
-        })
-    });
-
-    let textMsg = response.text();
-
-    if(textMsg == "invalid")
-    {
-
-    }
-    else
-    {
-
-    }
-}
-
-function ShowDiscountCode(msg){
-    var codeContainer = document.getElementById("code-container");
-    var codeRow = document.createElement(div);
-    codeRow.classList.add("promo-code-container");
-    var codeRowContents = `
-        <div>
-            <span class="promo-code">FIFA15</span>
-            <button id="remove-code-button" class="remove-button" type="button">remove</button>
-        </div>
-        <div class="discount-value">15 THB</div>`;
-    codeRow.innerHTML = codeRowContents;
-    codeContainer.append(codeRow);
-}
-
-function addButtonListener(){
-    var removeCartItemButtons = document.getElementsByClassName("items-remove-button");
-    for(var buttonIndex = 0; buttonIndex < removeCartItemButtons.length; buttonIndex++)
-    {
-        var button = removeCartItemButtons[buttonIndex];
-        button.addEventListener('click', checkCartItemName);
-    }
-}
-
-// function removeCartItem(event){
-//     var buttonClicked = event.target;
-//     buttonClicked.parentElement.parentElement.parentElement.parentElement.remove();
-// }
-
 async function readItemsCart(){
     let response = await fetch("/readItemsCart");
     let data = await response.json();
     showCartItems(data);
-}
-
-function checkCartItemName(event){
-    var buttonClicked = event.target;
-    var itemNameToRemove = buttonClicked.parentElement.getElementsByClassName("product-name")[0].innerText;
-    console.log(itemNameToRemove);
-}
-
-async function removeCartItem(name){
-    let response = await fetch("/removeCartItem", {
-        method:"POST",
-        headers:{
-            'Accept': 'application/json',
-			'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            itemName:name
-        })
-    });
-
-    let itemsCartData = await response.json();
-    showCartItems(itemsCartData);
+    // updateItemAmount();
 }
 
 function showCartItems(data){
@@ -113,7 +42,8 @@ function showCartItems(data){
         var itemQuantity = data[keys[i]]["quantity"];
         var itemPrice = data[keys[i]]["price"];
 
-        var cartRow = document.createElement(tr);
+        var cartRow = document.createElement("tr");
+        cartRow.classList.add("cart-row");
         cartTable = document.getElementById("cart-items-table");
         var cartRowContents = `
             <td>
@@ -127,11 +57,270 @@ function showCartItems(data){
             </td>
             <td>
                 <button class="minus-button" type="button">-</button>
-                <input type="number" value="${itemQuantity}" min="1">
+                <input class="cart-quantity-input" type="number" value="${itemQuantity}" min="1">
                 <button class="plus-button" type="button">+</button>
             </td>
-            <td>${itemPrice} THB</td>`;
+            <td class="cart-price">${itemPrice} THB</td>`;
         cartRow.innerHTML = cartRowContents;
         cartTable.append(cartRow);
     }
+
+    addButtonListener();
+    addIncrementButtonListener();
+    addDecrementButtonListener();
 }
+
+function addButtonListener(){
+    var removeCartItemButtons = document.getElementsByClassName("items-remove-button");
+    for(var buttonIndex = 0; buttonIndex < removeCartItemButtons.length; buttonIndex++)
+    {
+        var button = removeCartItemButtons[buttonIndex];
+        button.addEventListener('click', checkCartItemName);
+    }
+}
+
+function checkCartItemName(event){
+    var buttonClicked = event.target;
+    var itemNameToRemove = buttonClicked.parentElement.getElementsByClassName("product-name")[0].innerText;
+    console.log(itemNameToRemove);
+    removeCartItem(itemNameToRemove);
+    // addButtonListener();
+}
+
+async function removeCartItem(name){
+    let response = await fetch("/removeCartItem", {
+        method:"POST",
+        headers:{
+            'Accept': 'application/json',
+			'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            itemName:name
+        })
+    });
+
+    let itemsCartData = await response.json();
+    showCartItems(itemsCartData);
+    // updateItemAmount();
+}
+
+function addIncrementButtonListener(){
+    var incrementButtons = document.getElementsByClassName('plus-button');
+
+    for(var plusButtonIndex = 0; plusButtonIndex < incrementButtons.length; plusButtonIndex++)
+    {
+        var incrementButton = incrementButtons[plusButtonIndex];
+        incrementButton.addEventListener('click',increaseValue);
+    }
+}
+
+function addDecrementButtonListener(){
+    var decrementButtons = document.getElementsByClassName('minus-button');
+
+    for(var minusButtonIndex = 0; minusButtonIndex < decrementButtons.length; minusButtonIndex++)
+    {
+        var decrementButton = decrementButtons[minusButtonIndex];
+        decrementButton.addEventListener('click',decreaseValue);
+    }
+}
+
+function increaseValue(event){
+    var buttonClicked = event.target;
+    var itemName = buttonClicked.parentElement.parentElement.getElementsByClassName("product-name")[0].innerText;
+    var input = buttonClicked.parentElement.getElementsByClassName("cart-quantity-input")[0];
+    var inputValue = input.value;
+    var newValue = parseInt(inputValue) + 1;
+    input.value = newValue;
+    updateCartQuantity(itemName, newValue);
+}
+
+function decreaseValue(event){
+    var buttonClicked = event.target;
+    var itemName = buttonClicked.parentElement.parentElement.getElementsByClassName("product-name")[0].innerText;
+    var input = buttonClicked.parentElement.getElementsByClassName("cart-quantity-input")[0];
+    var inputValue = input.value;
+    var newValue = parseInt(inputValue) - 1;
+
+    if(newValue >= 1){
+        input.value = newValue;
+        updateCartQuantity(itemName, newValue);
+    }
+    else{
+        input.value = 1;
+    }
+}
+
+async function updateCartQuantity(name,value){
+    let response = await fetch("/updateQuantity", {
+        method:"POST",
+        headers:{
+            'Accept': 'application/json',
+			'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            itemName:name,
+            amount:value
+        })
+    });
+
+    let msg = await response.text();
+    console.log(msg);
+}
+
+async function applyCode(code){
+    let response = await fetch("/applyCode", {
+        method:"POST",
+        headers:{
+            'Accept': 'application/json',
+			'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            discountCode:code
+        })
+    });
+
+    let textMsg = await response.text();
+    console.log(textMsg)
+
+    if(textMsg == "Invalid code")
+    {
+        ShowErrorMessage(textMsg);
+    }
+    else
+    {
+        ShowDiscountCode(code,textMsg);
+        document.getElementById("code-apply-button").disabled = true;
+        addCodeRemoveButtonOnClick();
+
+    }
+}
+
+function ShowErrorMessage(msg){
+    document.getElementById("error-msg").innerText = msg;
+}
+
+function ShowDiscountCode(codeName, msg){
+    var codeContainer = document.getElementById("code-container");
+    var codeRow = document.createElement("div");
+    codeRow.classList.add("promo-code-container");
+    var codeRowContents = `
+        <div>
+            <span class="promo-code">${codeName}</span>
+            <button id="remove-code-button" class="remove-button" type="button">remove</button>
+        </div>
+        <div class="discount-value">${msg} THB</div>`;
+    codeRow.innerHTML = codeRowContents;
+    codeContainer.append(codeRow);
+}
+
+function addButtonListener(){
+    var removeCartItemButtons = document.getElementsByClassName("items-remove-button");
+    for(var buttonIndex = 0; buttonIndex < removeCartItemButtons.length; buttonIndex++)
+    {
+        var button = removeCartItemButtons[buttonIndex];
+        button.addEventListener('click', checkCartItemName);
+    }
+}
+
+function checkCartItemName(event){
+    var buttonClicked = event.target;
+    var itemNameToRemove = buttonClicked.parentElement.getElementsByClassName("product-name")[0].innerText;
+    console.log(itemNameToRemove);
+    removeCartItem(itemNameToRemove);
+    // addButtonListener();
+}
+
+async function removeCartItem(name){
+    let response = await fetch("/removeCartItem", {
+        method:"POST",
+        headers:{
+            'Accept': 'application/json',
+			'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            itemName:name
+        })
+    });
+
+    let itemsCartData = await response.json();
+    showCartItems(itemsCartData);
+    // updateItemAmount();
+}
+
+function addCodeRemoveButtonOnClick(){
+    document.getElementById("remove-code-button").onclick = removeCode;
+}
+
+function removeCode(){
+    var codeContainer = document.getElementsByClassName("promo-code-container")[0];
+    codeContainer.remove();
+    document.getElementById("code-apply-button").disabled = false;
+}
+
+// function removeCartItem(event){
+//     var buttonClicked = event.target;
+//     buttonClicked.parentElement.parentElement.parentElement.parentElement.remove();
+// }
+
+// async function updateItemAmount(){
+//     let response = await fetch("/updateItemAmount");
+//     let data = await response.text();
+//     updateItemAmountText(data);
+// }
+
+// function updateItemAmountText(amount){
+//     var itemAmount = parseInt(amount);
+//     if(itemAmount <= 1)
+//     {
+//         document.getElementsByClassName("items-count")[0].innerText = itemAmount + " Item";
+//         document.getElementsByClassName("items-amount")[0].innerText = "Item" + itemAmount;
+//     }
+//     else
+//     {
+//         document.getElementsByClassName("items-count")[0].innerText = amount + " Items";
+//         document.getElementsByClassName("items-amount")[0].innerText = "Items" + itemAmount;
+//     }
+// }
+
+// function updateCartPrice(){
+
+// }
+
+// function updateCartItemsTotal(){
+//     var cartRows = document.getElementsByClassName("cart-row");
+//     for(var cartRowIndex = 0; cartRowIndex < cartRows.length; cartRowIndex++)
+//     {
+//         var cartRow = cartRows[cartRowIndex];
+//         var priceElement = cartRow.getElementsByClassName("cart-price")[0];
+//         var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
+//         var price = parseFloat(priceElement.innerText.replace(' THB',''));
+//         var quantity = quantityElement.value;
+//         var total = price * quantity;
+//         priceElement.innerText = total + ' THB';
+//     }
+// }
+
+// function updateCartTotal(){
+//     var cartRows = document.getElementsByClassName("cart-row");
+//     var total = 0;
+//     for(var rowIndex = 0; rowIndex < cartRows.length; rowIndex++)
+//     {
+//         var cartRow = cartRows[rowIndex];
+//         var priceElement = cartRow.getElementsByClassName("cart-price")[0];
+//         var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
+//         var price = parseFloat(priceElement.innerText.replace(' THB',''));
+//         var quantity = quantityElement.value;
+//         total = total + (price * quantity);
+//     }
+
+//     var itemsCostElement = document.getElementsByClassName("items-cost")[0];
+//     itemsCostElement.innerText = total + ' THB';
+
+//     if(document.getElementsByClassName("promo-code-container")[0])
+//     {
+//         var discountElement = document.getElementsByClassName("discount-value")[0];
+//         discount = parseFloat(discountElement.innerText.replace(' THB',''));
+//         total = total - discount;
+//     }
+//     document.getElementsByClassName("total-cost-value")[0].innerText = total + ' THB';
+// }

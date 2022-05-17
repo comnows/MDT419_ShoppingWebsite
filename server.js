@@ -90,6 +90,95 @@ app.post('/writeItemData',async (req,res) => {
     res.send("Successfully Added");
 })
 
+app.get('/readItemsCart', async (req,res) => {
+    let cartData = await readJson('database/CartItem.json');
+    res.send(cartData);
+})
+
+// app.get('/updateItemAmount',async(req,res) => {
+//     let cartJsonData = await readJson('database/CartItem.json');
+//     let cartData = JSON.parse(cartJsonData);
+//     let cartItemKeys = Object.keys(cartData);
+//     let data = parseInt(cartItemKeys.length);
+//     console.log(data);
+//     res.send(data);
+// })
+
+app.post('/removeCartItem',async (req,res) => {
+    const itemName = req.body.itemName;
+    let CartData = await readJson('database/CartItem.json');
+    let itemCartData = JSON.parse(CartData);
+    let itemKeys = Object.keys(itemCartData);
+
+    for(let itemIndex = 0; itemIndex < itemKeys.length; itemIndex++)
+    {
+        if(itemCartData[itemKeys[itemIndex]].itemName == itemName)
+        {
+            delete itemCartData[itemKeys[itemIndex]];
+            break;
+        }
+    }
+
+    let newCartData = JSON.stringify(itemCartData, null, 4);
+    console.log(newCartData);
+    writeJson(newCartData, 'database/CartItem.json');
+    res.send(newCartData);
+})
+
+app.post('/updateQuantity',async (req,res) => {
+    const itemName = req.body.itemName;
+    const newQuantity = req.body.amount;
+    console.log(itemName);
+    console.log(newQuantity);
+    let cartJsonData = await readJson('database/CartItem.json');
+    let cartData = JSON.parse(cartJsonData);
+    let itemsKeys = Object.keys(cartData);
+
+    for(var itemIndex = 0; itemIndex < itemsKeys.length; itemIndex++)
+    {
+        if(cartData[itemsKeys[itemIndex]].itemName == itemName)
+        {
+            cartData[itemsKeys[itemIndex]].quantity = newQuantity;
+            break;
+        }
+    }
+
+    let newCartData = JSON.stringify(cartData,null,4);
+    console.log(newCartData);
+    writeJson(newCartData,'database/CartItem.json');
+    res.send('Write sucessful');
+})
+
+app.post('/applyCode',async (req,res) => {
+    const codeName = req.body.discountCode;
+    var msgToSend = "";
+    var CodeJsonData = await readJson('database/promoCode.json');
+    var codeData = JSON.parse(CodeJsonData);
+    console.log(codeData);
+    var codeKeys = Object.keys(codeData);
+
+    for(var codeIndex = 0; codeIndex < codeKeys.length; codeIndex++)
+    {
+        if(codeData[codeKeys[codeIndex]].code == codeName)
+        {
+            msgToSend = codeData[codeKeys[codeIndex]].discount;
+        }
+    }
+
+    if(msgToSend == "")
+    {
+        msgToSend = "Invalid code";
+    }
+    
+    res.send(msgToSend);
+})
+
+// const updateCartItemQuantity = async(itemName,quantity) => {
+//     return new Promise((resolve,reject) => {
+
+//     })
+// }
+
 const readJson = (file_name) => {
     return new Promise((resolve,reject) => {
         fs.readFile(file_name,'utf8', (err, data) => {
@@ -167,5 +256,5 @@ const writeJson = (data,file_name) => {
 }
 
 app.listen(port, hostname, () => {
-    console.log(`Server running at   http://${hostname}:${port}/Home.html`);
+    console.log(`Server running at   http://${hostname}:${port}/Cart.html`);
 });
