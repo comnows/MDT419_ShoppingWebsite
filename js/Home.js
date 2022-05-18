@@ -1,4 +1,5 @@
 // const { get } = require("express/lib/response");
+
 window.onload = pageLoad;
 
 function pageLoad(){
@@ -20,6 +21,10 @@ function pageLoad(){
     document.getElementById('addPsItemToCart2').onclick = function() { writeItemToCartData("addPsItemToCart2","psItemImg"); };
     document.getElementById('addPsItemToCart3').onclick = function() { writeItemToCartData("addPsItemToCart3","psItemImg"); };
     document.getElementById('addPsItemToCart4').onclick = function() { writeItemToCartData("addPsItemToCart4","psItemImg"); };
+    document.getElementById("signUpOrLogout").onclick = function() { clearCartItem("logOut"); }
+    document.getElementById("loginOrWelcome").onclick = function() { clearCartItem("login"); }
+    checkLogin();
+    countItemInCart();
 }
 
 async function readDataJson(category){
@@ -76,6 +81,8 @@ function changeCategory(itemData,category){
     }
 }
 async function writeItemToCartData(itemId,itemClass){
+        var amount = parseFloat(document.getElementById("amountItem").innerHTML);
+        document.getElementById("amountItem").innerHTML = amount + 1; 
         var itemToAddPath = document.getElementById(itemId).getElementsByClassName(itemClass)[0].src;
         console.log(itemToAddPath);
         let response = await fetch("/writeItemData", {
@@ -90,3 +97,80 @@ async function writeItemToCartData(itemId,itemClass){
         let data = await response.json();
         console.log(data);
 }
+
+async function countItemInCart(){
+    let response = await fetch("/readAmountOfItemInCart");
+    let cartData = await response.json();
+    var cartDataKeys = Object.keys(cartData);
+    var amountOfItemInCart = 0;
+    if (cartDataKeys.length != 0)
+    {
+        for(var i = 0 ; i < cartDataKeys.length ; i++)
+        {
+            var quantity = cartData[cartDataKeys[i]].quantity;
+            amountOfItemInCart += quantity;
+        }
+    }
+    document.getElementById("amountItem").innerHTML = amountOfItemInCart;
+}
+
+async function checkLogin(){
+    let response = await fetch("/checkLoginStatus");
+    let isLoginSuccess = await response.text();
+    console.log("isLoginSuccess = " + isLoginSuccess);
+    if (isLoginSuccess == "true")
+    {
+        var loginHeader = document.getElementById("loginOrWelcome");
+        loginHeader.innerHTML = "WELCOME";
+        loginHeader.style.color = "white";
+        var signUpHeader = document.getElementById("signUpOrLogout");
+        signUpHeader.innerHTML = "LOGOUT";
+    }
+    
+    else if (isLoginSuccess == "false")
+    {
+        var loginHeader = document.getElementById("loginOrWelcome");
+        loginHeader.innerHTML = "LOGIN";
+        loginHeader.style.color = "#FFE6A3";
+        var signUpHeader = document.getElementById("signUpOrLogout");
+        signUpHeader.innerHTML = "SIGN UP";
+    }   
+}
+
+async function clearCartItem(action){
+    let response = await fetch("/checkLoginStatus");
+    let isLoginSuccess = await response.text();
+
+    switch(action)
+    {
+        case"logOut":
+        {
+            if (isLoginSuccess == "true")
+            {
+                let deleteCart = await fetch("/removeAllCartItem");
+                countItemInCart();
+            }
+            
+            else if (isLoginSuccess == "false")
+            {
+                return;
+            }   
+        }
+        break;
+
+        case "login":
+        {
+            if (isLoginSuccess == "true")
+            {
+                return;
+            }
+            
+            else if (isLoginSuccess == "false")
+            {
+                let deleteCart = await fetch("/removeAllCartItem");;
+                countItemInCart();
+            }   
+        }
+    }  
+}
+

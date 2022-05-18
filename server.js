@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const { is } = require('express/lib/request');
 const res = require('express/lib/response');
+const { json } = require('express/lib/response');
+
+var isLoginSuccess = false;
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
@@ -38,6 +41,38 @@ const queryDB = (sql) => {
         })
     })
 }
+
+app.get('/goToHomePage', (req,res) => {
+    return res.redirect('Home.html');
+})
+
+app.get('/goToCartPage', (req,res) => {
+    return res.redirect('Cart.html');
+})
+
+app.get('/goToLoginPage', (req,res) => {
+    if (isLoginSuccess)
+    {
+        return res.redirect('Home.html');
+    }
+    else
+    {
+        return res.redirect('Login.html');
+    }
+})
+
+app.get('/goToSignUpPage', (req,res) => {
+    if (isLoginSuccess)
+    {
+        isLoginSuccess = false;
+        res.clearCookie('username');
+        return res.redirect('Login.html');
+    }
+    else
+    {
+        return res.redirect('Register.html');
+    }
+})
 
 app.post('/register', async (req,res) => {
     let password = req.body.password;
@@ -71,9 +106,14 @@ app.post('/login',async (req,res) => {
     if(result[keys[0]].password == password)
     {
         res.cookie('username', username);
+        isLoginSuccess = true;
         return res.redirect('Home.html');
     }
     return res.redirect('Login.html?error=1');
+})
+
+app.get('/checkLoginStatus',async (req,res) => {
+    res.send(isLoginSuccess);
 })
 
 app.get('/readItemData',async (req,res) => {
@@ -189,6 +229,11 @@ app.post('/applyCode',async (req,res) => {
     res.send(msgToSend);
 })
 
+app.get('/readAmountOfItemInCart',async (req,res) => {
+    let data = await readJson('database/CartItem.json');
+    res.send(data);
+})
+
 // const updateCartItemQuantity = async(itemName,quantity) => {
 //     return new Promise((resolve,reject) => {
 
@@ -258,7 +303,7 @@ const updateCart = (itemImgSrc, dataBase , cartData) => {
         }
     }
     });
-  }
+}
 
 const writeJson = (data,file_name) => {
     return new Promise((resolve,reject) => {
@@ -271,6 +316,7 @@ const writeJson = (data,file_name) => {
     })
 }
 
+
 app.listen(port, hostname, () => {
-    console.log(`Server running at   http://${hostname}:${port}/Cart.html`);
+    console.log(`Server running at   http://${hostname}:${port}/Home.html`);
 });

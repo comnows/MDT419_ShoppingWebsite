@@ -1,8 +1,12 @@
+
 window.onload = pageLoad;
 
 function pageLoad(){
     document.getElementById("code-apply-button").onclick = getCode;
     document.getElementById("checkout-button").onclick = checkout;
+    document.getElementById("signUpOrLogout").onclick = function() { clearCartItem("logOut"); }
+    document.getElementById("loginOrWelcome").onclick = function() { clearCartItem("login"); }
+    checkLogin();
     readItemsCart();
     // addButtonListener();
 }
@@ -15,11 +19,22 @@ function getCode(){
 }
 
 async function checkout(){
-    let response = await fetch("/removeAllCartItem");
-    let data = await response.json();
-    alert('Checkout Successful');
-    showCartItems(data);
-    removeCode();
+    let response = await fetch("/checkLoginStatus");
+    let isLoginSuccess = await response.text();
+    if (isLoginSuccess == "true")
+    {
+        let response = await fetch("/removeAllCartItem");
+        let data = await response.json();
+        alert('Checkout Successful');
+        showCartItems(data);
+        removeCode();
+    }
+    else if(isLoginSuccess == "false")
+    {
+        alert('Please Login');
+        clearCartItem("login");
+        window.location.href = "Login.html";
+    }
 }
 
 async function readItemsCart(){
@@ -331,6 +346,65 @@ function showPriceNoDiscount(){
     priceWithDiscountElement.innerText = itemsCostText;
 }
 
+async function checkLogin(){
+    let response = await fetch("/checkLoginStatus");
+    let isLoginSuccess = await response.text();
+    if (isLoginSuccess == "true")
+    {
+        var loginHeader = document.getElementById("loginOrWelcome");
+        loginHeader.innerHTML = "WELCOME";
+        loginHeader.style.color = "white";
+        var signUpHeader = document.getElementById("signUpOrLogout");
+        signUpHeader.innerHTML = "LOGOUT";
+    }
+    
+    else if (isLoginSuccess == "false")
+    {
+        var loginHeader = document.getElementById("loginOrWelcome");
+        loginHeader.innerHTML = "LOGIN";
+        loginHeader.style.color = "#FFE6A3";
+        var signUpHeader = document.getElementById("signUpOrLogout");
+        signUpHeader.innerHTML = "SIGN UP";
+    }
+       
+}
+
+async function clearCartItem(action){
+    let response = await fetch("/checkLoginStatus");
+    let isLoginSuccess = await response.text();
+
+    switch(action)
+    {
+        case"logOut":
+        {
+            if (isLoginSuccess == "true")
+            {
+                let deleteCart = await fetch("/removeAllCartItem");
+                countItemInCart();
+            }
+            
+            else if (isLoginSuccess == "false")
+            {
+                return;
+            }   
+        }
+        break;
+
+        case "login":
+        {
+            if (isLoginSuccess == "true")
+            {
+                return;
+            }
+            
+            else if (isLoginSuccess == "false")
+            {
+                let deleteCart = await fetch("/removeAllCartItem");;
+                countItemInCart();
+            }   
+        }
+    }  
+}
 // function removeCartItem(event){
 //     var buttonClicked = event.target;
 //     buttonClicked.parentElement.parentElement.parentElement.parentElement.remove();
