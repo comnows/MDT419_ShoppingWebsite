@@ -75,6 +75,7 @@ function showCartItems(data){
     showItemAmount(keys.length);
     showAllProductPrice(allItemsTotalPrice);
     addButtonListener();
+    addInputOnChangeListener();
     addIncrementButtonListener();
     addDecrementButtonListener();
 }
@@ -180,6 +181,29 @@ function decreaseValue(event){
     else{
         input.value = 1;
     }
+}
+
+function addInputOnChangeListener(){
+    var quantityInputs = document.getElementsByClassName("cart-quantity-input");
+
+    for(var inputIndex = 0; inputIndex < quantityInputs.length; inputIndex++)
+    {
+        var quantityInput = quantityInputs[inputIndex];
+        quantityInput.addEventListener("change",quantityChange);
+    }
+}
+
+function quantityChange(event){
+    var inputChanged = event.target;
+    var itemName = inputChanged.parentElement.parentElement.getElementsByClassName("product-name")[0].innerText;
+    var itemAmount = inputChanged.value;
+    
+    if(itemAmount < 1)
+    {
+        itemAmount = 1;
+    }
+
+    updateCartQuantity(itemName,itemAmount);
 }
 
 async function updateCartQuantity(name,value){
