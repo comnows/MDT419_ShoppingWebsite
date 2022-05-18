@@ -21,8 +21,8 @@ function pageLoad(){
     document.getElementById('addPsItemToCart2').onclick = function() { writeItemToCartData("addPsItemToCart2","psItemImg"); };
     document.getElementById('addPsItemToCart3').onclick = function() { writeItemToCartData("addPsItemToCart3","psItemImg"); };
     document.getElementById('addPsItemToCart4').onclick = function() { writeItemToCartData("addPsItemToCart4","psItemImg"); };
-    document.getElementById("signUpOrLogout").onclick = function() { clearCartItem("logOut"); }
-    document.getElementById("loginOrWelcome").onclick = function() { clearCartItem("login"); }
+    document.getElementById("signUpOrLogout").onclick = function() { clearCartItem(); }
+    document.getElementById("loginOrWelcome").onclick = function() { clearCartItem(); }
     checkLogin();
     countItemInCart();
 }
@@ -116,9 +116,9 @@ async function countItemInCart(){
 
 async function checkLogin(){
     let response = await fetch("/checkLoginStatus");
-    let isLoginSuccess = await response.text();
+    let isLoginSuccess = await response.json();
     console.log("isLoginSuccess = " + isLoginSuccess);
-    if (isLoginSuccess == "true")
+    if (isLoginSuccess["result"])
     {
         var loginHeader = document.getElementById("loginOrWelcome");
         loginHeader.innerHTML = "WELCOME";
@@ -127,7 +127,7 @@ async function checkLogin(){
         signUpHeader.innerHTML = "LOGOUT";
     }
     
-    else if (isLoginSuccess == "false")
+    else if (!isLoginSuccess["result"])
     {
         var loginHeader = document.getElementById("loginOrWelcome");
         loginHeader.innerHTML = "LOGIN";
@@ -137,40 +137,7 @@ async function checkLogin(){
     }   
 }
 
-async function clearCartItem(action){
-    let response = await fetch("/checkLoginStatus");
-    let isLoginSuccess = await response.text();
-
-    switch(action)
-    {
-        case"logOut":
-        {
-            if (isLoginSuccess == "true")
-            {
-                let deleteCart = await fetch("/removeAllCartItem");
-                countItemInCart();
-            }
-            
-            else if (isLoginSuccess == "false")
-            {
-                return;
-            }   
-        }
-        break;
-
-        case "login":
-        {
-            if (isLoginSuccess == "true")
-            {
-                return;
-            }
-            
-            else if (isLoginSuccess == "false")
-            {
-                let deleteCart = await fetch("/removeAllCartItem");;
-                countItemInCart();
-            }   
-        }
-    }  
+function clearCartItem(){
+    countItemInCart();
 }
 

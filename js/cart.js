@@ -20,8 +20,8 @@ function getCode(){
 
 async function checkout(){
     let response = await fetch("/checkLoginStatus");
-    let isLoginSuccess = await response.text();
-    if (isLoginSuccess == "true")
+    let isLoginSuccess = await response.json();
+    if (isLoginSuccess["result"])
     {
         let response = await fetch("/removeAllCartItem");
         let data = await response.json();
@@ -29,7 +29,7 @@ async function checkout(){
         showCartItems(data);
         removeCode();
     }
-    else if(isLoginSuccess == "false")
+    else if(!isLoginSuccess["result"])
     {
         alert('Please Login');
         clearCartItem("login");
@@ -324,8 +324,11 @@ function addCodeRemoveButtonOnClick(){
 }
 
 function removeCode(){
-    var codeContainer = document.getElementsByClassName("promo-code-container")[0];
-    codeContainer.remove();
+    if(document.getElementsByClassName("promo-code-container")[0])
+    {
+        var codeContainer = document.getElementsByClassName("promo-code-container")[0];
+        codeContainer.remove();
+    }
     showPriceNoDiscount();
     document.getElementById("code-apply-button").disabled = false;
 }
@@ -348,8 +351,8 @@ function showPriceNoDiscount(){
 
 async function checkLogin(){
     let response = await fetch("/checkLoginStatus");
-    let isLoginSuccess = await response.text();
-    if (isLoginSuccess == "true")
+    let isLoginSuccess = await response.json();
+    if (isLoginSuccess["result"])
     {
         var loginHeader = document.getElementById("loginOrWelcome");
         loginHeader.innerHTML = "WELCOME";
@@ -358,7 +361,7 @@ async function checkLogin(){
         signUpHeader.innerHTML = "LOGOUT";
     }
     
-    else if (isLoginSuccess == "false")
+    else if (!isLoginSuccess["result"])
     {
         var loginHeader = document.getElementById("loginOrWelcome");
         loginHeader.innerHTML = "LOGIN";

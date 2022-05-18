@@ -51,7 +51,7 @@ app.get('/goToCartPage', (req,res) => {
 })
 
 app.get('/goToLoginPage', (req,res) => {
-    if (isLoginSuccess)
+    if (req.cookies.username)
     {
         return res.redirect('Home.html');
     }
@@ -61,9 +61,27 @@ app.get('/goToLoginPage', (req,res) => {
     }
 })
 
-app.get('/goToSignUpPage', (req,res) => {
-    if (isLoginSuccess)
+app.get('/goToSignUpPage', async (req,res) => {
+    if (req.cookies.username)
     {
+        let cartJsonData = await readJson('database/CartItem.json');
+        let cartData = JSON.parse(cartJsonData);
+        let cartKeys = Object.keys(cartData);
+
+        if(cartKeys.length > 0)
+        {
+            let sqlDB = "CREATE TABLE IF NOT EXISTS userCartInfo (username VARCHAR(255), cart VARCHAR(16000))";
+            let result = await queryDB(sqlDB);
+            sqlDB = `INSERT INTO userCartInfo (username, cart) VALUES ("${req.cookies.username}",'${cartJsonData}')`;
+            result = await queryDB(sqlDB);
+            
+            cartKeys.forEach(function(key){
+            delete cartData[key];
+            });
+
+            let newCartData = JSON.stringify(cartData);
+            writeJson(newCartData, 'database/CartItem.json');
+        }
         isLoginSuccess = false;
         res.clearCookie('username');
         return res.redirect('Login.html');
@@ -107,13 +125,39 @@ app.post('/login',async (req,res) => {
     {
         res.cookie('username', username);
         isLoginSuccess = true;
+
+        let cartData = `SELECT cart FROM userCartInfo WHERE username = '${username}'`;
+        result = await queryDB(cartData);
+        result = Object.assign({},result);
+        console.log(result);
+        let cartKeys = Object.keys(result);
+        console.log(cartKeys.length);
+
+        if(cartKeys.length > 0)
+        {
+            let cartKeys2 = Object.keys(result[cartKeys[0]]);
+            console.log(result[cartKeys[0]][cartKeys2[0]]);
+            let dataToWrite = result[cartKeys[0]][cartKeys2[0]];
+            let w_data = await writeJson(dataToWrite,'database/CartItem.json');
+
+            let deleteData = `DELETE FROM userCartInfo WHERE username ='${username}'`;
+            result = await queryDB(deleteData);
+        }
         return res.redirect('Home.html');
     }
     return res.redirect('Login.html?error=1');
 })
 
 app.get('/checkLoginStatus',async (req,res) => {
-    res.send(isLoginSuccess);
+    if(req.cookies.username)
+    {
+        res.send({"result": true});
+    }
+    else
+    {
+        res.send({"result": false});
+    }
+    // res.send(isLoginSuccess);
 })
 
 app.get('/readItemData',async (req,res) => {
