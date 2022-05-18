@@ -8,6 +8,31 @@ body{
 	grid-template-columns: auto;
 }
 
+#cartLogo{
+	position: fixed;
+	left: 95%;
+	bottom: 5%;
+}
+
+#cartLogo img{
+	width: 50%;
+}
+
+#amountItem{
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	background-color: #FFE6A3;
+	border-radius: 50%;
+	color: #120530;
+	text-align: center;
+	font-weight: 700;
+	font-size: 18px;
+	position: absolute;
+	bottom: 65%;
+	left: 30%;
+}
+
 #header{
 	grid-column: 1 / span 1;
 }
@@ -393,4 +418,29 @@ li > a:visited{
 		padding: 4px 7px;
 		font-size: 12px;
     }
+
+	#cartLogo{
+		position: fixed;
+		left: 90%;
+		bottom: 5%;
+	}
+
+	#cartLogo img{
+		width: 70%;
+	}
+
+	#amountItem{
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		background-color: #FFE6A3;
+		border-radius: 50%;
+		color: #120530;
+		text-align: center;
+		font-weight: bold;
+		font-size: 10px;
+		position: absolute;
+		bottom: 65%;
+		left: 35%;
+	}
 }
